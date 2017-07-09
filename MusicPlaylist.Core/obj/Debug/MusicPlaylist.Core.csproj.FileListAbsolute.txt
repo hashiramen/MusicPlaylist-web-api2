@@ -1,0 +1,5 @@
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\bin\Debug\MusicPlaylist.Core.dll
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\bin\Debug\MusicPlaylist.Core.pdb
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\obj\Debug\MusicPlaylist.Core.csprojResolveAssemblyReference.cache
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\obj\Debug\MusicPlaylist.Core.dll
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\obj\Debug\MusicPlaylist.Core.pdb
