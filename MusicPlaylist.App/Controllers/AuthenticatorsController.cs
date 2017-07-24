@@ -30,7 +30,7 @@ namespace MusicPlaylist.App.Controllers
 
         [Route("{tag}")]
         [HttpGet]
-        public async Task<IHttpActionResult> Get(string tag)
+        public async Task<IHttpActionResult> Get(string tag)    
         {
             var result = await _authenService.GetAsync(tag);
             if(result == null)
@@ -46,7 +46,9 @@ namespace MusicPlaylist.App.Controllers
         {
             await _CommandDispatcher.DispatchAsync(command);
 
-            return Created($"api/authenticators/{command.Tag}", new object());
+            var authenticator = await _authenService.GetAsync(command.Tag);
+
+            return Created($"api/authenticators/{command.Tag}", authenticator);
         }
     }
 }

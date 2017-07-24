@@ -25,8 +25,8 @@ namespace MusicPlaylist.App.Controllers
         public async Task<IHttpActionResult> Post([FromBody]AddSong command)
         {
             await _CommandDispatcher.DispatchAsync(command);
-
-            return Created($"to/be/changed", new object());
+            var createdSong = await _songService.GetLatestAsync(command.playlistId);
+            return Created($"api/songs/", createdSong);
         }
     }
 }

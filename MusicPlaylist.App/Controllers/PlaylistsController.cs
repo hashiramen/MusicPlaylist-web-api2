@@ -41,7 +41,9 @@ namespace MusicPlaylist.App.Controllers
         {
             await _commandDispatcher.DispatchAsync(command);
 
-            return Created($"api/playlists/{command.Id}", new object());
+            var playlist = await _playlistService.GetLatesAddedAsync();
+
+            return Created($"api/playlists/{command.Id}", playlist);
         }
     }
 }
