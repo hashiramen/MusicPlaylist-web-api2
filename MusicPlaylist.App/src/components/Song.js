@@ -15,6 +15,8 @@ class Song extends Component {
         this.playNextSongInPlaylist = this.playNextSongInPlaylist.bind(this)
         this.handleProgress = this.handleProgress.bind(this)
         this.handleDuration = this.handleDuration.bind(this)
+        this.handleCurrentDuration = this.handleCurrentDuration.bind(this)
+
     }
 
     playNextSongInPlaylist(){
@@ -32,17 +34,20 @@ class Song extends Component {
     }
 
     handleProgress(e){
-        const { maxDuration, loadedSeconds, playedSeconds } = e
+        const { maxDuration, loadedSeconds, playedSeconds, played, loaded } = e
         const resultOfLoadedSecondsPercent = this.calculateLoadedPercent(loadedSeconds, this.state.progress.maxDuration)
         const resultOfPlayedSecondsPercent = this.calculatePlayedPercent(playedSeconds, this.state.progress.maxDuration)
         this.setState({
             progress:{
                 ...this.state.progress,
-                loadedSeconds: !isNaN(resultOfLoadedSecondsPercent) ? resultOfLoadedSecondsPercent : this.state.progress.loadedSeconds,
-                playedSeconds: !isNaN(resultOfPlayedSecondsPercent) ? resultOfPlayedSecondsPercent : this.state.progress.playedSeconds
+                loadedSeconds: loadedSeconds,
+                playedSeconds: playedSeconds,
+                played,
+                loaded
             }
         })
     }
+
 
     calculateLoadedPercent(loadedSeconds, maxDuration){
         return Math.round(Math.round(loadedSeconds * 100) / maxDuration)
@@ -61,6 +66,10 @@ class Song extends Component {
         })
     }
 
+    handleCurrentDuration(e){
+        console.log('handle current duration', e)
+    }
+
     renderFrameForYoutube(details){
         const { Url, Provider, Id } = details
         return (
@@ -70,12 +79,11 @@ class Song extends Component {
                     onEnded={this.playNextSongInPlaylist}
                     onError={this.playNextSongInPlaylist}
                     onProgress={this.handleProgress}
+                    progressFrequency={200}
                     onDuration={this.handleDuration}
-                    width="100%"
-                    min-height="50px"
-                    max-height="150px"/>
+                    width="100%"/>
                 {this.renderDetailFields(details)}
-                <SongProgressBar data={this.state.progress} songInfo={details}/>             
+                <SongProgressBar data={this.state.progress} songInfo={details} />             
             </div>
         )
     }
@@ -90,13 +98,12 @@ class Song extends Component {
                     onEnded={this.playNextSongInPlaylist}
                     onError={this.playNextSongInPlaylist}
                     onProgress={this.handleProgress}
+                    progressFrequency={200}
                     onDuration={this.handleDuration}
                     url={"https://soundcloud.com/fadermedia/the-weekend-wicked-games"}
-                    width="100%"
-                    min-height="50px"
-                    max-height="150px" />
+                    width="100%"/>
                 {this.renderDetailFields(details)}
-                <SongProgressBar data={this.state.progress} songInfo={details}/>               
+                <SongProgressBar data={this.state.progress} songInfo={details} />               
             </div>
         )
     }

@@ -16,7 +16,8 @@ class MyPlaylist extends Component {
         this.state = {
             addNewPlaylist: false,
             current: null,
-            song: null
+            song: null,
+            cinemaMode: false
         }
 
         this.handleNewPlaylistState = this.handleNewPlaylistState.bind(this)
@@ -115,6 +116,7 @@ class MyPlaylist extends Component {
 
     render() {
         const {Playlists, pending} = this.props.authenticator
+        const { cinemaMode } = this.state
         const current = Playlists.filter((p, i) => p.Id === this.state.current)
         let songs;
         if(typeof current[0] !== 'undefined' && current.length === 1){
@@ -130,8 +132,13 @@ class MyPlaylist extends Component {
         return (
             <div className="mypl-wrap">
                 <div className="mypl-container">
-                    <div className="mypl-left">
+                    <div className={`mypl-left ${cinemaMode ? 'cinema-mode-hide' : 'nope'}`}>
                         <Link to="/" className="mypl-close-btn dsbl-sel"><span className="fa fa-power-off"></span></Link>
+                        <button className="cinema-mode-button" 
+                                onClick={!cinemaMode ? () => this.setState({cinemaMode: true}) : () => this.setState({cinemaMode: false})}>
+                                    Cinema mode
+                            <span className={`${!cinemaMode ? "fa fa-arrows-alt" : "fa fa-times"}`}></span>
+                        </button>
                         {this.renderNewPlaylistField()}
                         <span className="mypl-spinner">{pending ? spinner() : ''}</span>
                         <div className="mypl-list">
@@ -140,10 +147,10 @@ class MyPlaylist extends Component {
                             </ul>
                         </div>
                     </div>
-                    <div className="mypl-middle">
+                    <div className={`mypl-middle ${cinemaMode ? 'cinema-mode-hide' : 'nope'}`}>
                         <SongsList current={songs} setSong={this.handleStateForChosenSong} activeSong={this.state.song}/>
                     </div>
-                    <div className="mypl-right">
+                    <div className={`mypl-right ${cinemaMode ? 'cinema-mode-open' : 'nope'}`}>
                         <Song details={this.state.song} playNext={this.playNextSong}/>
                     </div>
                 </div>

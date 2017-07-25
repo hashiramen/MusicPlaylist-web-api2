@@ -9,13 +9,14 @@ class SongsList extends Component {
     constructor(props){
         super(props)
 
+        this.state = {
+            enabledNewSongForm: false
+        }
+
         this.handleSongClick = this.handleSongClick.bind(this)
         this.handleAddingSong = this.handleAddingSong.bind(this)
     }
 
-    componentDidMount() {
-        
-    }
 
     handleSongClick(song, index){
         this.props.setSong(song, index)
@@ -33,27 +34,36 @@ class SongsList extends Component {
     fieldForAuthorAndTitle(field){
         console.log(field)
         return(
-            <div><input type="text" {...field.input} placeholder={`Enter ${field.input.name}`}/></div>
+            <input type="text" {...field.input} placeholder={`Enter ${field.input.name}`} className="half-input"/>
         )
     }
 
     fieldForUrl(field){
         return(
-            <div><input type="text" {...field.input} placeholder={`Song's <url></url>`}/></div>
+            <div><input type="text" {...field.input} placeholder={`Song's <url></url>`} className="full-input"/></div>
         )
+    }
+
+    renderButtonForNewSong(){
+        const { enabledNewSongForm} = this.state
+        return(
+            <div className={`new-song-button ${enabledNewSongForm ? 'hide-ns-button' : 'lulz'}`} onClick={() => this.setState({enabledNewSongForm: true})}>
+                <div><span className="fa fa-music"></span></div>
+                <div><span className="plus">+</span></div>
+            </div>
+        )        
     }
 
     renderFieldsForAddingNewSong(){
         const { handleSubmit } = this.props
         return (
-            <div>
-                <form onSubmit={handleSubmit(this.handleAddingSong)}>
-                    <Field name="author" component={this.fieldForAuthorAndTitle}/>
-                    <Field name="title" component={this.fieldForAuthorAndTitle}/>
-                    <Field name="url" component={this.fieldForUrl} />
-                    <button type="submit">Add</button>
-                </form>
-            </div>
+            <form onSubmit={handleSubmit(this.handleAddingSong)} className={`new-song-form`}>
+                <Field name="author" component={this.fieldForAuthorAndTitle} />
+                <Field name="title" component={this.fieldForAuthorAndTitle}/>
+                <Field name="url" component={this.fieldForUrl} />
+                <button type="submit" className="full-button dsbl-sel">submit</button>
+                <span  className="full-button dsbl-sel" onClick={()=> this.setState({enabledNewSongForm: false})}>close</span>
+            </form>       
         )
     }
 
@@ -84,7 +94,7 @@ class SongsList extends Component {
 
     render() {
         const { current } = this.props
-
+        const { enabledNewSongForm} = this.state
         if(typeof current == 'undefined'){
             return (
                 <div>
@@ -98,7 +108,12 @@ class SongsList extends Component {
                 <div>
                     <h1 className="playlist-title">{current.Name}:</h1>
                     <h4>Your playlist is empty</h4>
-                    {this.renderFieldsForAddingNewSong()}
+                    <div className="new-song-button-container">
+                        {this.renderButtonForNewSong()}
+                    </div>
+                    <div className={`new-song-container ${enabledNewSongForm ? 'show-ns-form' : ''}`}>
+                        {this.renderFieldsForAddingNewSong()}
+                    </div>
                 </div>
             )
         }
@@ -109,7 +124,12 @@ class SongsList extends Component {
                 <ul>
                     {this.renderSongsFields()}
                 </ul>
-                {this.renderFieldsForAddingNewSong()}
+                <div className="new-song-button-container">
+                    {this.renderButtonForNewSong()}
+                </div>             
+                <div className={`new-song-container ${enabledNewSongForm ? 'show-ns-form' : ''}`}>
+                    {this.renderFieldsForAddingNewSong()}
+                </div>
             </div>
         );
     }
