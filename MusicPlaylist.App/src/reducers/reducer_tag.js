@@ -1,4 +1,12 @@
-import { REQUEST_TAG, RECEIVE_TAG, REQUEST_ADD_PLAYLIST, RECEIVE_PLAYLIST, REQUEST_SONGS, RECEIVE_SONGS, RECEIVE_SONG } from '../actions/types'
+import { REQUEST_TAG, 
+    RECEIVE_TAG, 
+    REQUEST_ADD_PLAYLIST, 
+    RECEIVE_PLAYLIST, 
+    REQUEST_SONGS, 
+    RECEIVE_SONGS, 
+    RECEIVE_SONG, 
+    REQUEST_REMOVE_SONG,
+    COMPLETED_SONG_REMOVAL } from '../actions/types'
 
 //initial state
 const initial = {
@@ -48,6 +56,11 @@ export function fetchTag(state = initial, action) {
             })}
             console.log(nowa)
             return nowa;
+        case REQUEST_REMOVE_SONG:
+            console.log('action for song removal', action)
+            return {...state, pending: action.pending}
+        case COMPLETED_SONG_REMOVAL:
+            return {...state, action: action.pending}
     }
 
     return state

@@ -10,6 +10,7 @@ namespace MusicPlaylist.App
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.LocalOnly;
 
             // Web API routes
             config.MapHttpAttributeRoutes();

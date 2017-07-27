@@ -28,5 +28,14 @@ namespace MusicPlaylist.App.Controllers
             var createdSong = await _songService.GetLatestAsync(command.playlistId);
             return Created($"api/songs/", createdSong);
         }
+
+        [Route("")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> Remove([FromBody]RemoveSong command)
+        {
+            await _CommandDispatcher.DispatchAsync(command);
+
+            return Ok();
+        }
     }
 }

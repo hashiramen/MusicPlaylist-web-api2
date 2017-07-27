@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 
 //actions
-import {addNewSongAsync} from '../actions/action_songs'
+import {addNewSongAsync, removeSongAsync} from '../actions/action_songs'
 
 class SongsList extends Component {
     constructor(props){
@@ -15,6 +15,7 @@ class SongsList extends Component {
 
         this.handleSongClick = this.handleSongClick.bind(this)
         this.handleAddingSong = this.handleAddingSong.bind(this)
+        this.handleRemovingSong = this.handleRemovingSong.bind(this)
     }
 
 
@@ -29,6 +30,16 @@ class SongsList extends Component {
             playlistId: this.props.current.Id
         }
         this.props.addNewSongAsync(payload)
+    }
+
+    handleRemovingSong(song, index) {
+        const { Id, PlaylistId } = song
+        const payload = {
+            id: Id,
+            playlistId: PlaylistId
+        }
+
+        this.props.removeSongAsync(payload)
     }
 
     fieldForAuthorAndTitle(field){
@@ -75,18 +86,21 @@ class SongsList extends Component {
         }
         return Songs.map((s, index) => {
             return(
-                <li key={s.Id} className={`songs-container ${s.Id === idOfActiveSong ? 'active-song': ''}`} onClick={() => this.handleSongClick(s, index)}>
-                    <div className="songs-inner">
-                        <div className="song-img-wrap">
-                            <div className="song-img">
-                                <img src={`/assets/${s.Provider}.png`} alt="" draggable="false"/>
+                <li key={s.Id} className={`songs-container ${s.Id === idOfActiveSong ? 'active-song': ''}`} >
+                    <div onClick={() => this.handleSongClick(s, index)}>
+                        <div className="songs-inner">
+                            <div className="song-img-wrap">
+                                <div className="song-img">
+                                    <img src={`/assets/${s.Provider}.png`} alt="" draggable="false"/>
+                                </div>
+                            </div>
+                            <div className="song-details">
+                                <div className="song-title"><p>{s.Title}</p></div>
+                                <div className="song-author"><p>{s.Author}</p></div>
                             </div>
                         </div>
-                        <div className="song-details">
-                            <div className="song-title"><p>{s.Title}</p></div>
-                            <div className="song-author"><p>{s.Author}</p></div>
-                        </div>
                     </div>
+                    <button className="song-remove-btn" onClick={() => this.handleRemovingSong(s, index)}><span className="fa fa-trash-o"></span></button>
                 </li>
             )
         })
@@ -137,4 +151,4 @@ class SongsList extends Component {
 
 export default reduxForm({
     form: 'AddNewSong'
-})(connect(null, {addNewSongAsync})(SongsList));
+})(connect(null, {addNewSongAsync, removeSongAsync})(SongsList));

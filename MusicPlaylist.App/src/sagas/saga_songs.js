@@ -2,7 +2,7 @@ import { takeEvery} from 'redux-saga'
 import { put, call } from 'redux-saga/effects'
 import axios from 'axios'
 
-import { REQUEST_SONGS, RECEIVE_SONGS, REQUEST_ADD_SONG, RECEIVE_SONG } from '../actions/types'
+import { REQUEST_SONGS, RECEIVE_SONGS, REQUEST_ADD_SONG, RECEIVE_SONG, REQUEST_REMOVE_SONG, COMPLETED_SONG_REMOVAL } from '../actions/types'
 
 //watcher
 //worker
@@ -47,5 +47,29 @@ export function* addNewSongAsync(action){
     catch (e) 
     {
         console.log(e)
+    }
+}
+
+export function* watchRemovingSong(){
+    console.log(' is watching songs removal')
+    yield takeEvery(REQUEST_REMOVE_SONG, removeSongAsync)
+}
+
+export function* removeSongAsync(action){
+    console.log(JSON.stringify(action.payload))
+    const config = {
+        url: 'http://localhost:51210/api/songs/',
+        method: 'delete',
+        data: {...action.payload}
+    }
+    console.log(config)
+    try 
+    {
+        yield axios({...config})
+        yield put({type: COMPLETED_SONG_REMOVAL, pending: true})
+    } 
+    catch (e) 
+    {
+        console.log('song removal error: ', e)   
     }
 }

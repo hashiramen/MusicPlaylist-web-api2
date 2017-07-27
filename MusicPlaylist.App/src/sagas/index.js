@@ -1,6 +1,6 @@
 import { watchCreateOrFetchTag } from './saga_tag'
 import { watchAddingOfNewPlaylist } from './saga_playlist'
-import { watchFetchingSongs, watchAddingNewSong } from './saga_songs'
+import { watchFetchingSongs, watchAddingNewSong, watchRemovingSong } from './saga_songs'
 //3. root saga
 
 //---- root ----
@@ -9,6 +9,7 @@ export default function* rootSaga() {
         watchCreateOrFetchTag(),
         watchAddingOfNewPlaylist(),
         watchFetchingSongs(),
-        watchAddingNewSong()
+        watchAddingNewSong(),
+        watchRemovingSong()
     ]
 }

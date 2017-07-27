@@ -6,6 +6,9 @@ import { Field, reduxForm } from 'redux-form'
 import SongsList from '../components/SongsList'
 import Song from '../components/Song'
 
+//hoc
+import require_playlist from '../hoc/require_playlist'
+
 import { addNewPlaylistAsync } from '../actions/action_playlist'
 import { requestSongsAsync } from '../actions/action_songs'
 
@@ -68,8 +71,9 @@ class MyPlaylist extends Component {
     requestSongsForPlaylist(e) {
         const {guid, index} = e.currentTarget.dataset
         console.log('guid', guid)
-
-        this.props.requestSongsAsync(guid, index, () => this.setState({current: guid}))
+        if(guid !== this.state.current){
+            this.props.requestSongsAsync(guid, index, () => this.setState({current: guid}))
+        }
     }
 
 
@@ -107,7 +111,7 @@ class MyPlaylist extends Component {
                     data-index={i} 
                     onClick={this.requestSongsForPlaylist} 
                     className={this.state.current === pl.Id ? "mypl-active": ""}>
-                    <span>{pl.Songs != null ? pl.Songs.length > 0 ? `${pl.Songs.length } songs` : 'empty' : ''}</span>
+                    <p className="mypl-song-count">{pl.Songs != null ? pl.Songs.length > 0 ? `${pl.Songs.length } songs` : 'empty' : ''}</p>
                     <p>{pl.Name}</p>
                 </li>
             )
@@ -115,6 +119,9 @@ class MyPlaylist extends Component {
     }
 
     render() {
+        if(typeof this.props.authenticator.Id == 'undefined'){
+            return <div>something goes wrong</div>
+        }
         const {Playlists, pending} = this.props.authenticator
         const { cinemaMode } = this.state
         const current = Playlists.filter((p, i) => p.Id === this.state.current)
@@ -165,6 +172,6 @@ function mapStateToProps(state){
     }
 }
 
-export default reduxForm({
+export default require_playlist(reduxForm({
     form: 'AddNewPlaylist'
-})(connect(mapStateToProps, {addNewPlaylistAsync, requestSongsAsync })(MyPlaylist));
+})(connect(mapStateToProps, {addNewPlaylistAsync, requestSongsAsync })(MyPlaylist)));

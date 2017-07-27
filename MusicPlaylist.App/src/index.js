@@ -10,6 +10,12 @@ import Layout from './components/Layout'
 import LandingPage from './components/LandingPage'
 import MyPlaylist from './containers/MyPlaylist'
 
+//error pages
+import PageNotFound from './components/PageNotFound'
+
+//hoc
+import require_playlist from './hoc/require_playlist'
+
 //1.reducers
 //2.root of sagas
 import reducers from './reducers'
@@ -33,6 +39,7 @@ ReactDOM.render(
             <Switch>
                 <Route exact path="/" render={() => <Layout><LandingPage /></Layout>}/>
                 <Route path="/myplaylist" render={() => <Layout><MyPlaylist /></Layout>} />
+                <Route path="*" render={() => <Layout><PageNotFound /></Layout>}/>
             </Switch>
         </Router>
     </Provider>
