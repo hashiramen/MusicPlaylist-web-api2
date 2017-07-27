@@ -22,7 +22,7 @@ namespace MusicPlaylist.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task AddAsync(string url, Guid playlistId)
+        public async Task AddAsync(string url, string author, string title, Guid playlistId)
         {
             var playlist = await _playlistRepository.GetAsync(playlistId);
             if(playlist == null)
@@ -30,7 +30,7 @@ namespace MusicPlaylist.Infrastructure.Services
                 throw new Exception($"Playlist with id: '{playlistId}' does not exists");
             }
 
-            var song = new Song(url, playlistId);
+            var song = new Song(url, author, title, playlistId);
             await _songRepository.AddAsync(song);
         }
 
@@ -39,6 +39,28 @@ namespace MusicPlaylist.Infrastructure.Services
             var songs = await _songRepository.GetAllAsync(playlistId);
 
             return _mapper.Map<IEnumerable<Song>, IEnumerable<SongDto>>(songs);
+        }
+
+        public async Task<SongDto> GetLatestAsync(Guid playlistId)
+        {
+            var song = await _songRepository.GetLatestAsync(playlistId);
+            if(song == null)
+            {
+                throw new Exception($"Playlist with id ${playlistId} does not exists");
+            }
+
+            return _mapper.Map<Song, SongDto>(song);
+        }
+
+        public async Task RemoveAsync(Guid songId, Guid playlistId)
+        {
+            var song = await _songRepository.GetAsync(songId, playlistId);
+            if (song == null)
+            {
+                throw new ArgumentException($"Song with playlist id: {playlistId} or song id: {songId}, doest not exists");
+            }
+
+            await _songRepository.RemoveAsync(song);
         }
     }
 }

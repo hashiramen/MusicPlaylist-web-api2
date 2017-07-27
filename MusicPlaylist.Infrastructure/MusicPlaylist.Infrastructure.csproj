@@ -56,6 +56,7 @@
     <Compile Include="Commands\Authenticators\AddSong.cs" />
     <Compile Include="Commands\Authenticators\CreateAuthenticator.cs" />
     <Compile Include="Commands\Authenticators\CreatePlaylist.cs" />
+    <Compile Include="Commands\Authenticators\RemoveSong.cs" />
     <Compile Include="Commands\CommandDispatcher.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandDispatcher.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Handlers\Authenticators\CreateAuthenticatorHandler.cs" />
     <Compile Include="Handlers\Playlists\CreatePlaylistHandler.cs" />
     <Compile Include="Handlers\Songs\AddSongHandler.cs" />
+    <Compile Include="Handlers\Songs\RemoveSongHandler.cs" />
     <Compile Include="IoC\BuildContainer.cs" />
     <Compile Include="IoC\Modules\CommandModule.cs" />
     <Compile Include="IoC\Modules\MusicPlaylistSqlServerModule.cs" />
@@ -96,6 +98,10 @@
     <Compile Include="Migrations\201707061326292_Playlist name is now required.cs" />
     <Compile Include="Migrations\201707061326292_Playlist name is now required.Designer.cs">
       <DependentUpon>201707061326292_Playlist name is now required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707231203443_changestoTheClassSong.cs" />
+    <Compile Include="Migrations\201707231203443_changestoTheClassSong.Designer.cs">
+      <DependentUpon>201707231203443_changestoTheClassSong.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707061326292_Playlist name is now required.resx">
       <DependentUpon>201707061326292_Playlist name is now required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707231203443_changestoTheClassSong.resx">
+      <DependentUpon>201707231203443_changestoTheClassSong.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

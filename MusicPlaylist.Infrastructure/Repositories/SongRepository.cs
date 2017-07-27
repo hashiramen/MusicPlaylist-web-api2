@@ -27,14 +27,21 @@ namespace MusicPlaylist.Infrastructure.Repositories
             await _database.SaveChangesAsync();
         }
 
-        public Task RemoveAsync(Song song)
+        public async Task RemoveAsync(Song song)
         {
-            throw new NotImplementedException();
+           _database.Songs.Remove(song);
+           await _database.SaveChangesAsync();
         }
 
         public Task UpdateAsync(Song song)
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Song> GetLatestAsync(Guid playlistId)
+            => await _database.Songs.Where(s => s.PlaylistId == playlistId).OrderByDescending(d => d.CreatedAt).FirstOrDefaultAsync();
+
+        public async Task<Song> GetAsync(Guid songId, Guid playlistId)
+            => await _database.Songs.Where(s => s.Id == songId && s.PlaylistId == playlistId).FirstOrDefaultAsync();
     }
 }

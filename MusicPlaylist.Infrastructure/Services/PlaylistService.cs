@@ -29,6 +29,13 @@ namespace MusicPlaylist.Infrastructure.Services
             return  _mapper.Map<Playlist, PlaylistDto>(playlist);
         }
 
+        public async Task<PlaylistDto> GetLatesAddedAsync()
+        {
+            var playlist = await _playlistRepository.GetAsync();
+
+            return _mapper.Map<Playlist, PlaylistDto>(playlist);
+        }
+
         public async Task RegisterAsync(Guid id, string name)
         {
             var authenticator = await _authenRepository.GetAsync(id);

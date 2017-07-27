@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace MusicPlaylist.Infrastructure.Handlers.Songs
 {
-    public class AddSongHandler : ICommandHandler<AddSong>
+    public class RemoveSongHandler : ICommandHandler<RemoveSong>
     {
         private readonly ISongService _songService;
-        public AddSongHandler(ISongService songService)
+        public RemoveSongHandler(ISongService songSerivce)
         {
-            _songService = songService;
+            _songService = songSerivce;
         }
 
-        public async Task HandleAsync(AddSong command)
+        public async Task HandleAsync(RemoveSong command)
         {
-            await _songService.AddAsync(command.url, command.author, command.title, command.playlistId);
+            await _songService.RemoveAsync(command.id, command.playlistId);
         }
     }
 }

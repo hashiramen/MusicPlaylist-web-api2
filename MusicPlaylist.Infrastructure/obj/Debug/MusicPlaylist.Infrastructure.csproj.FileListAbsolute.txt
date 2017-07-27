@@ -21,3 +21,4 @@ C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Infrastruc
 C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Infrastructure\obj\Debug\MusicPlaylist.Infrastructure.Migrations.ReworkedPlaylistclass.resources
 C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Infrastructure\obj\Debug\MusicPlaylist.Infrastructure.Migrations.ModelreworkedPlaylistandSong.resources
 C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Infrastructure\obj\Debug\MusicPlaylist.Infrastructure.Migrations.Playlistnameisnowrequired.resources
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Infrastructure\obj\Debug\MusicPlaylist.Infrastructure.Migrations.changestoTheClassSong.resources

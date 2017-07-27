@@ -8,6 +8,7 @@ namespace MusicPlaylist.Infrastructure.Commands.Authenticators
 {
     public class CreateAuthenticator : ICommand
     {
+        public Guid Id { get; set; }
         public string Tag { get; set; }
     }
 }

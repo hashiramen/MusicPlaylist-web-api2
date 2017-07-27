@@ -25,10 +25,13 @@ namespace MusicPlaylist.Infrastructure.Repositories
         }
 
         public async Task<IEnumerable<Playlist>> GetAllAsync(Guid authenticatorId)
-            => await _database.Playlists.Include(x => x.Songs).Where(p => p.AuthenticatorId == authenticatorId).OrderByDescending(a => a.CreatedAt).AsQueryable().ToListAsync();
+            => await _database.Playlists.Where(p => p.AuthenticatorId == authenticatorId).OrderByDescending(a => a.CreatedAt).AsQueryable().ToListAsync();
 
         public async Task<Playlist> GetAsync(Guid id)
            => await _database.Playlists.Include(x => x.Songs).FirstOrDefaultAsync(p => p.Id == id);
+
+        public async Task<Playlist> GetAsync()
+            => await _database.Playlists.OrderByDescending(a => a.CreatedAt).FirstOrDefaultAsync();
 
         public async Task RemoveAsync(Playlist playlist)
         {

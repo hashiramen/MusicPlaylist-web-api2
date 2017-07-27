@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace MusicPlaylist.Infrastructure.Commands.Authenticators
 {
-    public class AddSong : ICommand
+    public class RemoveSong : ICommand
     {
+        public Guid id { get; set; }
         public Guid playlistId { get; set; }
-        public string url { get; set; }
-        public string title { get; set; }
-        public string author { get; set; }
     }
 }

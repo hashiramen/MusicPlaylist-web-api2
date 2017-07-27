@@ -29,10 +29,10 @@ namespace MusicPlaylist.Infrastructure.Repositories
             => await _database.Authenticators.Include(x => x.Playlists).ToListAsync();
 
         public async Task<Authenticator> GetAsync(string tag)
-           => await _database.Authenticators.Include(x => x.Playlists.Select(s => s.Songs)).FirstOrDefaultAsync(x => x.Tag == tag);
+           => await _database.Authenticators.Include(x => x.Playlists).FirstOrDefaultAsync(x => x.Tag == tag);
 
         public async Task<Authenticator> GetAsync(Guid id)
-            => await _database.Authenticators.Include(x => x.Playlists.Select(s => s.Songs)).FirstOrDefaultAsync(x => x.Id == id);
+            => await _database.Authenticators.Include(x => x.Playlists).FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task RemoveAsync(string tag)
         {
