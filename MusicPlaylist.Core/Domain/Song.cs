@@ -35,19 +35,43 @@ namespace MusicPlaylist.Core.Domain
         public Song(string url, string author, string title, Guid playlistId)
         {
             Id = Guid.NewGuid();
-            Title = title;
-            Author = author;
+            ValidateAndSetAuthorAndTitle(title, author);
 
             //set url provider
             GetUrlProvider(url);
             SetUnique(url);
-            SetUrl();
+            SetUrl(url);
             PlaylistId = playlistId;
             CreatedAt = DateTime.UtcNow;
         }
 
+        public void ValidateAndSetAuthorAndTitle(string title, string author)
+        {
+            if (title == null || author == null)
+            {
+                throw new ArgumentNullException("Title and/or Author name cannot be NULL");
+            }
+
+            if (String.IsNullOrWhiteSpace(title) || String.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException($"Invalid author or playlist name");
+            }
+
+            Title = title;
+            Author = author;
+        }
+
         public void GetUrlProvider(string url)
         {
+            if(url == null)
+            {
+                throw new ArgumentNullException("Url cannot be NULL");
+            }
+
+            if (String.IsNullOrWhiteSpace(url))
+            {
+                throw new ArgumentException($"Invalid url");
+            }
 
             if (url.Contains(youtube))
             {
@@ -79,11 +103,12 @@ namespace MusicPlaylist.Core.Domain
                     Unique = (url.Substring(url.LastIndexOf("=") + 1)).Replace("/", "");
                     break;
                 case soundcloud:
+                    Unique = soundcloud;
                     break;
             }
         }
 
-        public void SetUrl()
+        public void SetUrl(string url)
         {
             switch (Provider)
             {
@@ -91,6 +116,7 @@ namespace MusicPlaylist.Core.Domain
                     Url = $"https://www.youtube.com/embed/{Unique}?autoplay=1&rel=0&amp;controls=0&amp;showinfo=0";
                     break;
                 case soundcloud:
+                    Url = $"{url}";
                     break;
             }
         }

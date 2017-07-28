@@ -9,18 +9,18 @@ class Song extends Component {
             progress: {
                 maxDuration: 0,
                 loadedSeconds: 0,
-                playedSeconds: 0
+                playedSeconds: 0,
+                volume : 0.3
             }
         }
         this.playNextSongInPlaylist = this.playNextSongInPlaylist.bind(this)
         this.handleProgress = this.handleProgress.bind(this)
         this.handleDuration = this.handleDuration.bind(this)
         this.handleCurrentDuration = this.handleCurrentDuration.bind(this)
-
+        this.handleVolume = this.handleVolume.bind(this)
     }
 
     playNextSongInPlaylist(){
-        console.log(this.props)
         this.props.playNext()
     }
 
@@ -28,7 +28,7 @@ class Song extends Component {
         const { Author, Title } = details
         return(
             <div>
-            <div className="song-tit"><p>{Author}</p><p> - </p><p>{Title}</p></div>
+                <div className="song-tit"><p>{Author}</p><p> - </p><p>{Title}</p></div>
             </div>
         )
     }
@@ -67,7 +67,16 @@ class Song extends Component {
     }
 
     handleCurrentDuration(e){
-        console.log('handle current duration', e)
+        //to be added
+    }
+
+    handleVolume(e){
+        this.setState({
+            progress:{
+                ...this.state.progress,
+                volume: parseFloat(e.currentTarget.value)
+            }
+        })
     }
 
     renderFrameForYoutube(details){
@@ -81,9 +90,9 @@ class Song extends Component {
                     onProgress={this.handleProgress}
                     progressFrequency={200}
                     onDuration={this.handleDuration}
+                    volume={this.state.progress.volume}
                     width="100%"/>
-                {this.renderDetailFields(details)}
-                <SongProgressBar data={this.state.progress} songInfo={details} />             
+                <SongProgressBar data={this.state.progress} songInfo={details} setVolume={(e) => this.handleVolume(e)}/>             
             </div>
         )
     }
@@ -100,17 +109,17 @@ class Song extends Component {
                     onProgress={this.handleProgress}
                     progressFrequency={200}
                     onDuration={this.handleDuration}
-                    url={"https://soundcloud.com/fadermedia/the-weekend-wicked-games"}
+                    volume={this.state.progress.volume}
+                    url={Url}
                     width="100%"/>
-                {this.renderDetailFields(details)}
-                <SongProgressBar data={this.state.progress} songInfo={details} />               
+                <SongProgressBar data={this.state.progress} songInfo={details} setVolume={(e) => this.handleVolume(e)}/>               
             </div>
         )
     }
 
     emptyField() {
         return (
-            <div>No song was chosen * _*</div>
+            <div ><h4 style={{color:'red', textAlign: 'center', paddingTop: '1em', width: '100%', display: 'block'}}>No song was chosen * _*</h4></div>
         )
     }
 

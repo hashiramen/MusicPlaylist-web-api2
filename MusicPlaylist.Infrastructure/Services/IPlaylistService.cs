@@ -12,5 +12,6 @@ namespace MusicPlaylist.Infrastructure.Services
         Task<PlaylistDto> GetAsync(Guid id);
         Task RegisterAsync(Guid id, string name);
         Task<PlaylistDto> GetLatesAddedAsync();
+        Task RemoveAsync(Guid id, Guid authenticatorId);
     }
 }

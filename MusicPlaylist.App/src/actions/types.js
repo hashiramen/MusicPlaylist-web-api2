@@ -25,3 +25,8 @@ export const FAILED_SONG = 'failed_song'
 export const REQUEST_REMOVE_SONG = 'request_remove_song'
 export const COMPLETED_SONG_REMOVAL = 'completed_song_removal'
 export const FAILED_SONG_REMOVAL = 'failed_song_removal'
+
+//playlist removal
+export const REQUEST_PLAYLIST_REMOVAL = 'request_playlist_removal'
+export const COMPLETED_PLAYLIST_REMOVAL = 'completed_playlist_removal'
+export const FAILED_PLAYLIST_REMOVAL = 'failed_playlist_removal'

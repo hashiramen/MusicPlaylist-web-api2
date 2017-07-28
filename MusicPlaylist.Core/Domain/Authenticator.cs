@@ -24,8 +24,23 @@ namespace MusicPlaylist.Core.Domain
         public Authenticator(string tag)
         {
             Id = Guid.NewGuid();
-            Tag = tag;
+            ValidateAndSetTag(tag);
             CreatedAt = DateTime.UtcNow;
+        }
+
+        public void ValidateAndSetTag(string tag)
+        {
+            if (tag == null)
+            {
+                throw new ArgumentNullException("Tag cannot be NULL");
+            }
+
+            if (String.IsNullOrWhiteSpace(tag))
+            {
+                throw new ArgumentException($"Invalid tag name");
+            }
+
+            Tag = tag;
         }
     }
 }

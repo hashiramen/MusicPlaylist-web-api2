@@ -9,6 +9,7 @@ namespace MusicPlaylist.Core.Repositories
 {
     public interface IPlaylistRepository : IRepository
     {
+        Task<Playlist> GetAsync(Guid id, Guid authenticatorId);
         Task<Playlist> GetAsync(Guid id);
         Task<Playlist> GetAsync();
         Task<IEnumerable<Playlist>> GetAllAsync(Guid authenticatorId);

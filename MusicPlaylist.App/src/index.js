@@ -29,17 +29,15 @@ const store = createStore(
 saga.run(rootSaga)
 
 import { requestTag } from './actions/action_tag'
-// store.dispatch(requestTag('xd'))
-// setTimeout(() => console.log('Application state: ', store.getState()), 3000)
 
-console.log('Starts the react app...')
+consol.log(`Hi there σ(≧ε≦ｏ)`)
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <Switch>
                 <Route exact path="/" render={() => <Layout><LandingPage /></Layout>}/>
                 <Route path="/myplaylist" render={() => <Layout><MyPlaylist /></Layout>} />
-                <Route path="*" render={() => <Layout><PageNotFound /></Layout>}/>
+                <Route render={() => <Layout><PageNotFound /></Layout>}/>
             </Switch>
         </Router>
     </Provider>

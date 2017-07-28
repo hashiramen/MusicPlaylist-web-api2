@@ -9,15 +9,12 @@ export default function(ComposedComponent) {
         }
 
         componentWillMount() {
-            console.log('im here')
             if(typeof this.props.authenticator.Id == 'undefined'){
-                console.log('im here')
                 this.context.router.history.push('/')
             }
         }
 
         componentWillUpdate(nextProps){
-            console.log('im here')
             if(typeof this.props.authenticator.Id == 'undefined'){
                 this.context.router.history.push('/')
             }

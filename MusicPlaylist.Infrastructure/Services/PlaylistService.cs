@@ -46,5 +46,16 @@ namespace MusicPlaylist.Infrastructure.Services
             var playlist = new Playlist(name, id);
             await _playlistRepository.AddAsync(playlist);
         }
+
+        public async Task RemoveAsync(Guid id, Guid authenticatorId)
+        {
+            var playlist = await _playlistRepository.GetAsync(id, authenticatorId);
+            if(playlist == null)
+            {
+                throw new NullReferenceException($"We couldnt find a playlit that matches authenticator: {authenticatorId} and playlist: {id}");
+            }
+
+            await _playlistRepository.RemoveAsync(playlist);
+        }
     }
 }

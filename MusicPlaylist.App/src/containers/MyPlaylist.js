@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, reset } from 'redux-form'
 
 import SongsList from '../components/SongsList'
 import Song from '../components/Song'
@@ -9,7 +9,7 @@ import Song from '../components/Song'
 //hoc
 import require_playlist from '../hoc/require_playlist'
 
-import { addNewPlaylistAsync } from '../actions/action_playlist'
+import { addNewPlaylistAsync, removePlaylistAsync} from '../actions/action_playlist'
 import { requestSongsAsync } from '../actions/action_songs'
 
 class MyPlaylist extends Component {
@@ -28,6 +28,7 @@ class MyPlaylist extends Component {
         this.requestSongsForPlaylist = this.requestSongsForPlaylist.bind(this)
         this.handleStateForChosenSong = this.handleStateForChosenSong.bind(this)
         this.playNextSong = this.playNextSong.bind(this)
+        this.handlePlaylistRemove = this.handlePlaylistRemove.bind(this)
     }
 
     playNextSong(){
@@ -35,10 +36,7 @@ class MyPlaylist extends Component {
         const currentPlaylist = this.props.authenticator.Playlists.filter(p => {
             return p.Id === song.PlaylistId
         })
-        console.log('current song', song)
-        console.log('current playlist', currentPlaylist)
-        console.log('current songs of playlist,', currentPlaylist[0].Songs)
-        console.log('nasda', currentPlaylist[0].Songs.length, song.index)
+
         if(currentPlaylist[0].Songs.length > song.index){
             const index = song.index + 1
             this.setState({
@@ -48,10 +46,18 @@ class MyPlaylist extends Component {
     }
 
     handleNewPlaylistState(){
-        console.log('im here')
         this.setState({
             addNewPlaylist : !this.state.addNewPlaylist
         })
+    }
+
+    handlePlaylistRemove(id, index){
+        const payload = {
+            id,
+            authenticatorId: this.props.authenticator.Id
+        }
+
+        this.props.removePlaylistAsync(payload, index, () => console.log('call back for playlist removal'))
     }
 
     handleStateForChosenSong(song, index){
@@ -65,17 +71,19 @@ class MyPlaylist extends Component {
             Id : this.props.authenticator.Id,
             ...values
         }
-        this.props.addNewPlaylistAsync(payload, () => this.setState({addNewPlaylist: false}))
+        this.props.addNewPlaylistAsync(payload, 
+            () => this.setState({addNewPlaylist: false}),
+            () => this.props.dispatch(reset('AddNewPlaylist'))
+        )
     }
 
-    requestSongsForPlaylist(e) {
-        const {guid, index} = e.currentTarget.dataset
-        console.log('guid', guid)
+    requestSongsForPlaylist(guid, index) {
         if(guid !== this.state.current){
             this.props.requestSongsAsync(guid, index, () => this.setState({current: guid}))
         }
     }
 
+    
 
 
     nameFieldForNewPlaylist(field){
@@ -109,10 +117,12 @@ class MyPlaylist extends Component {
                 <li key={i} 
                     data-guid={pl.Id}
                     data-index={i} 
-                    onClick={this.requestSongsForPlaylist} 
                     className={this.state.current === pl.Id ? "mypl-active": ""}>
-                    <p className="mypl-song-count">{pl.Songs != null ? pl.Songs.length > 0 ? `${pl.Songs.length } songs` : 'empty' : ''}</p>
-                    <p>{pl.Name}</p>
+                    <div onClick={() => this.requestSongsForPlaylist(pl.Id, i)} className="mypl-relative-container">
+                        <p className="mypl-song-count">{pl.Songs != null ? pl.Songs.length > 0 ? `${pl.Songs.length } songs` : 'empty' : ''}</p>
+                        <p>{pl.Name}</p>
+                    </div>
+                    <button className="playlist-remove-btn" onClick={() => this.handlePlaylistRemove(pl.Id, i)}><span className="fa fa-trash-o"></span></button>
                 </li>
             )
         })
@@ -136,10 +146,15 @@ class MyPlaylist extends Component {
             )
         }
 
+        const checkIfAnySongIsActive = () => {
+            return !this.state.song ? 'no-song' : ''
+        }
+
+
         return (
             <div className="mypl-wrap">
                 <div className="mypl-container">
-                    <div className={`mypl-left ${cinemaMode ? 'cinema-mode-hide' : 'nope'}`}>
+                    <div className={`mypl-left ${cinemaMode ? 'cinema-mode-hide' : ''} ${checkIfAnySongIsActive()}`}>
                         <Link to="/" className="mypl-close-btn dsbl-sel"><span className="fa fa-power-off"></span></Link>
                         <button className="cinema-mode-button" 
                                 onClick={!cinemaMode ? () => this.setState({cinemaMode: true}) : () => this.setState({cinemaMode: false})}>
@@ -154,10 +169,10 @@ class MyPlaylist extends Component {
                             </ul>
                         </div>
                     </div>
-                    <div className={`mypl-middle ${cinemaMode ? 'cinema-mode-hide' : 'nope'}`}>
+                    <div className={`mypl-middle ${cinemaMode ? 'cinema-mode-hide' : ''} ${checkIfAnySongIsActive()}`}>
                         <SongsList current={songs} setSong={this.handleStateForChosenSong} activeSong={this.state.song}/>
                     </div>
-                    <div className={`mypl-right ${cinemaMode ? 'cinema-mode-open' : 'nope'}`}>
+                    <div className={`mypl-right ${cinemaMode ? 'cinema-mode-open' : ''} ${!this.state.song ? 'no-song-hide' : ''}`}>
                         <Song details={this.state.song} playNext={this.playNextSong}/>
                     </div>
                 </div>
@@ -174,4 +189,4 @@ function mapStateToProps(state){
 
 export default require_playlist(reduxForm({
     form: 'AddNewPlaylist'
-})(connect(mapStateToProps, {addNewPlaylistAsync, requestSongsAsync })(MyPlaylist)));
+})(connect(mapStateToProps, {addNewPlaylistAsync, requestSongsAsync, removePlaylistAsync })(MyPlaylist)));

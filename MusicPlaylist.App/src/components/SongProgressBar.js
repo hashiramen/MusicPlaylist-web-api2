@@ -7,7 +7,7 @@ class SongProgressBar extends Component {
 
     render() {
         const { Author, Title } = this.props.songInfo
-        const { loadedSeconds, maxDuration, playedSeconds, loaded, played } = this.props.data
+        const { loadedSeconds, maxDuration, playedSeconds, loaded, played, volume } = this.props.data
         const properMaxDurationFormat = (duration)=>{
             let format = ""
             let res = (duration/60)
@@ -42,6 +42,12 @@ class SongProgressBar extends Component {
                             <div className="song-player-max">
                                 <p>{properMaxDurationFormat(maxDuration)}</p>
                             </div>
+                        </div>
+                    </div>
+                    <div className="song-player-control">
+                        <div className="volume-control">
+                            <span className={`vol-icon fa ${volume > 0.5 ? 'fa-volume-up' : volume <= 0 ? 'fa-volume-off' : 'fa-volume-down'}`}></span>
+                            <input type="range" min="0" max="1" step="0.01" className="slider" defaultValue={volume} onChange={(e) => this.props.setVolume(e)}/>                
                         </div>
                     </div>
                 </div>

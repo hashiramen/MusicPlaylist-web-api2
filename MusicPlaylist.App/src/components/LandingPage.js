@@ -49,7 +49,7 @@ function validate(values) {
     const errors = {}
 
     if(!values.tag){
-        errors.tag = "This field cannot be empty ( ._ .)"
+        errors.tag = " "
     }
 
     return errors 

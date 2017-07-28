@@ -26,9 +26,24 @@ namespace MusicPlaylist.Core.Domain
         public Playlist(string name, Guid authenticatorId)
         {
             Id = Guid.NewGuid();
-            Name = name;
+            ValidateAndSetName(name);
             AuthenticatorId = authenticatorId;
             CreatedAt = DateTime.UtcNow;
+        }
+
+        public void ValidateAndSetName(string name)
+        {
+            if(name == null)
+            {
+                throw new ArgumentNullException("Playlist's name cannot be NULL");
+            }
+
+            if(String.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException($"Invalid name for playlist");
+            }
+
+            Name = name;
         }
     }
 }

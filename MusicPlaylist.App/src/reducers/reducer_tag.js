@@ -6,7 +6,15 @@ import { REQUEST_TAG,
     RECEIVE_SONGS, 
     RECEIVE_SONG, 
     REQUEST_REMOVE_SONG,
-    COMPLETED_SONG_REMOVAL } from '../actions/types'
+    COMPLETED_SONG_REMOVAL,
+    REQUEST_PLAYLIST_REMOVAL,
+    COMPLETED_PLAYLIST_REMOVAL,
+    FAILED_TAG,
+    FAILED_SONG,
+    FAILED_SONGS,
+    FAILED_SONG_REMOVAL,
+    FAILED_PLAYLIST,
+    FAILED_PLAYLIST_REMOVAL } from '../actions/types'
 
 //initial state
 const initial = {
@@ -16,29 +24,38 @@ const initial = {
 export function fetchTag(state = initial, action) {
     switch(action.type) {
         case REQUEST_TAG:
-            console.log('request tag:', action.pending)
             return {pending: action.pending}
         case RECEIVE_TAG:
-            console.log('im under receive tag, action:', action)
             return {pending: action.pending, ...action.data}
+        case FAILED_TAG:
+            return {...state, pending: action.pending}
         case REQUEST_ADD_PLAYLIST:
-            console.log('Requesting new playlist....', action.pending)
+            return {...state, pending: action.pending}
+        case REQUEST_PLAYLIST_REMOVAL:
             return {...state, pending: action.pending}
         case RECEIVE_PLAYLIST:
-            console.log('Receiving created playlist.!!!--', action.pending)
             return {...state, pending: action.pending, Playlists: [...state.Playlists, action.data]}
+        case COMPLETED_PLAYLIST_REMOVAL:
+            const newPlaylistState = { ...state, pending: action.pending, Playlists: [
+                ...state.Playlists.slice(0, action.index),
+                ...state.Playlists.slice(action.index + 1)
+            ]}
+            return newPlaylistState
+        case FAILED_PLAYLIST:
+            return {...state, pending: action.pending}
+        case FAILED_PLAYLIST_REMOVAL:
+            return {...state, pending: action.pending}
         case REQUEST_SONGS:
             return { ...state, pending: action.pending}
         case RECEIVE_SONGS:
-            console.log('old state', state)
             const newState = {...state, pending: action.pending}
             const playlists = newState.Playlists = state.Playlists.slice()
             let single = playlists[action.index] = {...playlists[action.index]}
             single.Songs = action.data.Songs
-            console.log('new state', newState)
             return newState
+        case FAILED_SONGS:
+            return {...state, pending: action.pending}
         case RECEIVE_SONG:
-            console.log('receiving new song data....', state)
             const nowa = { ...state, pending: action.data.pending, Playlists: state.Playlists.map(p => {
                 let newPlaylist;
                 if(p.Id === action.data.data.PlaylistId)
@@ -54,13 +71,30 @@ export function fetchTag(state = initial, action) {
 
                 return p.Id === action.data.data.PlaylistId ? newPlaylist : p
             })}
-            console.log(nowa)
+
             return nowa;
+        case FAILED_SONG:
+            return {...state, pending: action.pending}
         case REQUEST_REMOVE_SONG:
-            console.log('action for song removal', action)
             return {...state, pending: action.pending}
         case COMPLETED_SONG_REMOVAL:
-            return {...state, action: action.pending}
+            const removeSongFromNewState = { ...state, pending: action.pending, Playlists: state.Playlists.map(p => {
+                let newPlaylist;
+                if(p.Id === action.playlistId)
+                {
+                    newPlaylist = {
+                        ...p,
+                        Songs: [...p.Songs.slice(0, action.index),
+                        ...p.Songs.slice(action.index + 1)]
+                    }
+                }
+
+                return p.Id === action.playlistId ? newPlaylist : p
+            })}
+
+            return removeSongFromNewState
+        case FAILED_SONG_REMOVAL:
+            return {...state, pending: action.pending}
     }
 
     return state

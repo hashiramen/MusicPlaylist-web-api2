@@ -12,19 +12,22 @@ export function requestSongsAsync(guid, index, callback){
 }
 
 
-export function addNewSongAsync(payload){
+export function addNewSongAsync(payload, callback, resetForm){
     return {
         type: REQUEST_ADD_SONG,
         pending: true,
-        payload
+        payload,
+        callback,
+        resetForm
     }
 }
 
 
-export function removeSongAsync(payload){
+export function removeSongAsync(payload, index){
     return {
         type: REQUEST_REMOVE_SONG,
         pending: true,
-        payload
+        payload,
+        index
     }
 }

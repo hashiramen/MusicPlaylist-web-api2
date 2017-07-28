@@ -24,8 +24,7 @@ namespace MusicPlaylist.App.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
-            var authenticators = await _authenService.GetAllAsync();
-            return Json(authenticators);
+            return NotFound();
         }
 
         [Route("{tag}")]

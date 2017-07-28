@@ -33,9 +33,13 @@ namespace MusicPlaylist.Infrastructure.Repositories
         public async Task<Playlist> GetAsync()
             => await _database.Playlists.OrderByDescending(a => a.CreatedAt).FirstOrDefaultAsync();
 
+        public async Task<Playlist> GetAsync(Guid id, Guid authenticatorId)
+            => await _database.Playlists.Where(p => p.Id == id && p.AuthenticatorId == authenticatorId).FirstOrDefaultAsync();
+
         public async Task RemoveAsync(Playlist playlist)
         {
-            throw new NotImplementedException();
+            _database.Playlists.Remove(playlist);
+            await _database.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Playlist playlist)

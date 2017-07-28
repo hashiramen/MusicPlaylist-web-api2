@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
 
 //actions
@@ -24,12 +24,13 @@ class SongsList extends Component {
     }
 
     handleAddingSong(values){
-        console.log(this.props.current)
         const payload = {
             ...values,
             playlistId: this.props.current.Id
         }
-        this.props.addNewSongAsync(payload)
+        this.props.addNewSongAsync(payload, 
+            () => this.setState({ enabledNewSongForm: false }),
+            () => this.props.dispatch(reset('AddNewSong')))
     }
 
     handleRemovingSong(song, index) {
@@ -39,11 +40,10 @@ class SongsList extends Component {
             playlistId: PlaylistId
         }
 
-        this.props.removeSongAsync(payload)
+        this.props.removeSongAsync(payload, index)
     }
 
     fieldForAuthorAndTitle(field){
-        console.log(field)
         return(
             <input type="text" {...field.input} placeholder={`Enter ${field.input.name}`} className="half-input"/>
         )
@@ -112,7 +112,7 @@ class SongsList extends Component {
         if(typeof current == 'undefined'){
             return (
                 <div>
-                    <h4>You haven't chose any playlist yet</h4>
+                    <h4 style={{color:'red', textAlign: 'center', marginTop: '1em'}}>You haven't chose any playlist yet</h4>
                 </div>
             )
         }
@@ -121,7 +121,7 @@ class SongsList extends Component {
             return (
                 <div>
                     <h1 className="playlist-title">{current.Name}:</h1>
-                    <h4>Your playlist is empty</h4>
+                    <h4 style={{color:'red', textAlign: 'center', marginTop: '1em', width: '100%', display:'block', float: 'left'}}>Your playlist is empty</h4>
                     <div className="new-song-button-container">
                         {this.renderButtonForNewSong()}
                     </div>

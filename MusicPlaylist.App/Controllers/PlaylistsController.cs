@@ -45,5 +45,14 @@ namespace MusicPlaylist.App.Controllers
 
             return Created($"api/playlists/{command.Id}", playlist);
         }
+
+        [Route("")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> Remove([FromBody]RemovePlaylist command)
+        {
+            await _commandDispatcher.DispatchAsync(command);
+
+            return Ok();
+        }
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="Commands\Authenticators\AddSong.cs" />
     <Compile Include="Commands\Authenticators\CreateAuthenticator.cs" />
     <Compile Include="Commands\Authenticators\CreatePlaylist.cs" />
+    <Compile Include="Commands\Authenticators\RemovePlaylist.cs" />
     <Compile Include="Commands\Authenticators\RemoveSong.cs" />
     <Compile Include="Commands\CommandDispatcher.cs" />
     <Compile Include="Commands\ICommand.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Dto\SongDto.cs" />
     <Compile Include="Handlers\Authenticators\CreateAuthenticatorHandler.cs" />
     <Compile Include="Handlers\Playlists\CreatePlaylistHandler.cs" />
+    <Compile Include="Handlers\Playlists\RemovePlaylistHandler.cs" />
     <Compile Include="Handlers\Songs\AddSongHandler.cs" />
     <Compile Include="Handlers\Songs\RemoveSongHandler.cs" />
     <Compile Include="IoC\BuildContainer.cs" />
