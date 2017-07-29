@@ -10,3 +10,5 @@ How it works?
 >You can press on the cinema mode for better experience
 
 Live demo at: http://music.tanomu.dk/
+
+*Soundcloud may not work because of their problems with APIs but you can still add it to playlist
