@@ -116,12 +116,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="assets\artboard_2.png" />
+    <Content Include="assets\bg\bg.jpg" />
+    <Content Include="assets\bg\bg2.jpg" />
+    <Content Include="assets\bg\bg3.jpg" />
+    <Content Include="assets\bg\bg4.jpg" />
+    <Content Include="assets\bg\bg5.jpg" />
+    <Content Include="assets\css\min.style.css" />
+    <Content Include="assets\css\style.css" />
+    <Content Include="assets\pattern.png" />
+    <Content Include="assets\soundcloud.png" />
+    <Content Include="assets\vegasoveraly.png" />
+    <Content Include="assets\youtube.png" />
+    <Content Include="bundle.js" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="src\index.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="webpack.config.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -138,6 +153,8 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
+    <Content Include="package.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

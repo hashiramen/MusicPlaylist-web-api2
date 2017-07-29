@@ -1,0 +1,4 @@
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\bin\Release\MusicPlaylist.Core.dll
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\bin\Release\MusicPlaylist.Core.pdb
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\obj\Release\MusicPlaylist.Core.dll
+C:\Users\Daniel\Desktop\MusicPlaylist\MusicPlaylist.App\MusicPlaylist.Core\obj\Release\MusicPlaylist.Core.pdb
